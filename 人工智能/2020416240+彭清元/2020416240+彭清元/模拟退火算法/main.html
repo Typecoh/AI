@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>模拟退火算法TSP问题</title>
+    </head>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        #container {
+            width: 1200px;
+            /*height: 600px;*/
+            margin: 20px auto;
+            border: 1px solid red;
+        }
+
+        .main {
+            width: 900px;
+            margin: 10px auto;
+        }
+
+        input {
+            width: 50px;
+            height: 24px;
+            text-align: center;
+        }
+    </style>
+    <body>
+        <div id="APP">
+            <div id="container">
+                <div>
+                    <h1 style="text-align: center; color: coral">欢迎使用由20级计科2班彭清元设计的模拟退火算法TSP问题可视化展示</h1>
+                </div>
+
+                <div class="main">
+
+                    <div>
+                        请输入城市数量
+                        <input type="text" v-model.number="number">
+                        请输入迭代次数
+                        <input type="text" v-model.number="iterations">
+                        请输入温度
+                        <input type="text" v-model.number="temperature">
+                        请输入降温速率
+                        <input type="text" v-model.number="coolingRate">
+
+                    </div>
+                    <br>
+                    <br>
+                    <tr>
+                        <td>城市x坐标</td>
+                        <td>城市y坐标</td>
+                    </tr>
+                    <br>
+                    <br>
+                    <div v-for="(x,y) in number">
+                        <tr>
+                            <td>
+                                <input type="text" v-model="pathX[x]">
+                            </td>
+                            <td>
+                                <input type="text" v-model="pathY[y]">
+                            </td>
+                        </tr>
+                    </div>
+                    <br>
+                    <button @click="calPath">计算距离</button>
+                </div>
+
+                <footer>
+                    最短路径是：
+                    <div v-show="this.result.path != []">{{this.result.path}}</div>
+                    最短路径长度是：
+                    <div v-show="this.result.path != []">{{this.result.length}}</div>
+                </footer>
+            </div>
+        </div>
+        <script src="../../vue.js"></script>
+        <script src="TSP.js"></script>
+        <script>
+            const vm = new Vue({
+                el: "#APP",
+                data: {
+                    number: 0,
+                    iterations: 0,
+                    temperature: 0,
+                    coolingRate: 0,
+                    pathX: [],
+                    pathY: [],
+                    path: [],
+                    result: [],
+                },
+                methods: {
+                    calPath() {
+
+                        let len = this.pathX.length;
+
+                        this.path = []
+
+                        for (let i = 0; i < len - 1; i++) {
+                            let arr = []
+                            arr.push(this.pathX[i + 1])
+                            arr.push(this.pathY[i])
+                            this.path.push(arr)
+                        }
+
+                        this.result = main3(this.path, this.iterations, this.temperature, this.coolingRate)
+
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

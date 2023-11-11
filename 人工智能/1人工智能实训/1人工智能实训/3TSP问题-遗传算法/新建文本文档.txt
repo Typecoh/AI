@@ -1,0 +1,87 @@
+/*遗传算法的实际应用*/
+//问题2
+// -1 0 1 2 ==> 101   000   001   010   
+#include<iostream>
+#include <cmath>
+using namespace std;
+
+// 三个筛选方式 --- 选择 ，交叉， 突变
+ 
+//-------------------------------------------------------转换字符串为数字 
+int convert(string a1) 
+{
+	int Mark = 1;
+	if(a1[0] == '1')
+	{
+		Mark = -1;
+	}
+	int asnt = ((a1[1]-'0')*2 + (a1[2]-'0'))*Mark;
+	
+	return asnt;
+}
+
+//----------------------------------------------------------代入数值进行计算 
+int adapt_func(string &t1,string &t2,string &t3) 
+{
+	int tm1,tm2,tm3;
+	int tm1_up,tm2_up,tm3_up;
+	
+	tm1 = convert(t1),tm1 = convert(t2),tm1 = convert(t3);
+	
+	tm1_up =  -1*(pow(tm1,2))+2*tm1+0.5;
+	tm2_up =  -1*(pow(tm2,2))+2*tm2+0.5;
+	tm3_up =  -1*(pow(tm3,2))+2*tm3+0.5;
+	
+	int a[3];
+	a[0] = tm1_up,a[1] = tm2_up,a[2] = tm3_up;
+	
+	return a;
+}
+
+//###################################################################遗传学选择
+void select(string &t1,string &t2,string &t3)  
+{
+	int *select;
+	select = adapt_func(t1,t2,t3); // 得到适应度函数返回值指针 --- 指向数组的头指针
+	int min = 0, max = 0;
+	
+	for(int i = 0;i<3;i++)
+	{
+		if( *(select+min) >= *(select+i) )
+		{
+			min = i;
+		}
+		
+		if( *(select+max) <= *(select+i) )
+		{
+			max = i;
+		}
+	}
+	
+	*(select+min) = *(select+max); // 将最大值赋值给最小值
+	
+	 
+	
+	
+}
+
+int main()
+{
+	string a1 = "101",a2 = "000",a3 = "001";
+	string solution;
+	while(1)
+	{
+		select(a1,a2,a3);
+		turple_list(a1,a2,a3);
+		
+		if(find_max(a1,a2,a3) == a4)
+		{
+			break;
+		}
+	}
+	
+	cout<<"本题的最终答案是"<<solution;
+	cout<<"最大值为"<<adapt_func(solution);
+	
+	return 0;
+} 

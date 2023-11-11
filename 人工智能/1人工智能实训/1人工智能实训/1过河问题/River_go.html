@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>过河游戏-范树玉</title>
+<style type="text/css">
+#content{width:800px;height:600px;border:1px #333333 solid;overflow:hidden;}
+#A{width:120px;height:600px;float:left;background:#689933;}
+#B{width:560px;height:600px;float:left;background:#0066ff;}
+#river{width:560px;height:450px;}
+#operator{width:560px;height:150px;background:#f65f07;overflow:hidden;}
+#C{width:120px;height:600px;float:right;background:#689933;}
+#people{width:100px;height:20px;border:2px #000000 solid;margin:10px auto;text-align:center;cursor:pointer;padding:10px 0px;}
+#ship{width:200px;height:30px;border:1px #CC3300 solid;
+	background:#f46600;position:relative;top:150px;
+	left:0px;text-align:center;padding:10px 0px;cursor:pointer;border-radius: 10% 30% 50% 70%;}
+#btns{width:560px;height:40px;margin-top:10px;}
+#btn{width:60px;height:20px;border:1px #000000 solid;background:#FFFFCC;text-align:center;padding:10px 0px;cursor:pointer;float:left;margin-left:210px;display:inline;}
+#new{width:60px;height:20px;border:1px #000000 solid;background:#FFFFCC;text-align:center;padding:10px 0px;cursor:pointer;float:left;margin-left:10px;display:inline;}
+#rule{width:560px;height:100px;margin-top:10px;font-family:楷体;font-size:12px;color:#000000;line-height:16px;text-align:center;}
+</style>
+<script type="text/javascript">
+var direction;		//A to C:true ; C to A:false
+var people=new Array(7);
+var s2Able;		//判断船2是否有人
+var s1Able;		//判断船1是否有人
+var pInShip1;	//哪个人在船1上
+var pInShip2;	//哪个人在船2上
+var j1,j2,j3,j4;
+
+function init(){
+    var peopleA=document.getElementById("A").getElementsByTagName("div");
+	var ships=document.getElementsByName("ship");
+    var peopleC=document.getElementById("C").getElementsByTagName("div");
+	var moveBtn=document.getElementById("btn");
+	var newBtn=document.getElementById("new");
+	for(var i=0,len=peopleC.length;i<len;i++){
+	    peopleC[i].style.visibility="hidden";
+	}
+    s1Able=true;
+	s2Able=true;
+	direction=true;
+
+	for (var i=0;i<7;i++)
+	{
+		people[i]=true;
+	}
+	
+	//注册事件
+	var len=peopleA.length;
+	for(var j=0;j<len;j++){
+	    (function(m){
+		    peopleA[m].onclick = function(){
+			    if(direction)
+			       selectPeople(this,m+1);
+			};
+			peopleC[m].onclick = function(){
+			    if(!direction)
+			       selectPeople(this,m+8+1);
+			};
+		})(j);
+	}
+	ships[0].onclick=function(){
+	    quitShip(this,pInShip1);
+	    s1Able=true;
+	    pInShip1=0;
+	};
+	ships[1].onclick=function(){
+	    quitShip(this,pInShip2);
+	    s2Able=true;
+	    pInShip2=0;
+	};
+	moveBtn.onclick=function(){
+	    move();
+	};
+	newBtn.onclick=function(){
+	    window.location = window.location;
+	};
+}
+function selectPeople(obj,move_num){
+    var ships=document.getElementsByName("ship");
+	if(s1Able){
+	    ships[0].innerHTML=obj.innerHTML;
+		obj.style.visibility="hidden";
+		s1Able=false;
+		pInShip1=move_num;
+		if(move_num>8)
+			people[move_num-8]=!people[move_num-8];
+		else
+			people[move_num]=!people[move_num];
+	}
+	else if(s2Able){
+	    ships[1].innerHTML=obj.innerHTML;
+		obj.style.visibility="hidden";
+		s2Able=false;
+		pInShip2=move_num;
+		if(move_num>8)
+			people[move_num-8]=!people[move_num-8];
+		else
+			people[move_num]=!people[move_num];
+	}
+	else{
+	    alert("船上最多两个人，已满!");
+	}
+}
+function quitShip(obj,quitId){
+    if(obj.innerHTML != ""){
+	    var peopleA=document.getElementById("A").getElementsByTagName("div");
+        var peopleC=document.getElementById("C").getElementsByTagName("div");
+	    if(quitId > 8){
+		    peopleC[quitId-8-1].style.visibility="visible";
+			people[quitId-8]=!people[quitId-8];
+		}
+		else{
+		    peopleA[quitId-1].style.visibility="visible";
+			people[quitId]=!people[quitId];
+		}
+		obj.innerHTML="";
+	}
+}
+function motherCheck(){
+	j1 = 0, j2 = 0,j3 = 0,j4 = 0;
+  for(var i = 1;i<=3;i++)
+  {
+    if(people[i])
+    {
+      j1++;
+    }
+    else{
+      j2++;
+    }
+
+    if(people[i+3])
+    {
+      j3++;
+    }
+    else{
+      j4++;
+    }
+  }
+  
+  if(j1<j3 && j1*j3)
+  {	
+    alert("野人要开吃了！！！"+"左岸天使数量为"+j1+" "+"野人数量为"+j3);
+    return false;
+  }
+  if(j2<j4 && j2*j4)
+  {
+    alert("野人要开吃了！！！"+"左岸天使数量为"+j1+" "+"野人数量为"+j3);
+    return false;
+  }
+ 
+	return true;
+}
+
+function atoc(peopleId){
+    var peopleC=document.getElementById("C").getElementsByTagName("div");
+	var ships=document.getElementsByName("ship");
+	var tempId;
+	if(peopleId > 10){
+	    tempId = peopleId - 10 -1;
+	}
+	else
+	    tempId = peopleId - 1;
+	if(tempId >= 0)
+	   peopleC[tempId].style.visibility="visible";
+	for(var i=0,len=ships.length;i<len;i++){
+	    ships[i].style.left = "360px";
+		ships[i].innerHTML = "";
+	}
+}
+function ctoa(peopleId){
+    var peopleA=document.getElementById("A").getElementsByTagName("div");
+	var ships=document.getElementsByName("ship");
+	var tempId;
+	if(peopleId > 8){
+	    tempId = peopleId - 8 -1;
+	}
+	else
+	    tempId = peopleId - 1;
+	if(tempId >= 0)
+	    peopleA[tempId].style.visibility="visible";
+	for(var i=0,len=ships.length;i<len;i++){
+	    ships[i].style.left = "0px";
+		ships[i].innerHTML = "";
+	}
+}
+function move(){
+   
+		if (motherCheck())
+		{	
+			if(direction)
+			{
+				atoc(pInShip1);
+				atoc(pInShip2);
+				direction=false;
+			}
+			else
+			{
+				ctoa(pInShip1);
+				ctoa(pInShip2);
+				direction=true;
+			}
+			s1Able=s2Able=true;
+			pInShip1=pInShip2=0;
+			
+			var peopleC=document.getElementById("C").getElementsByTagName("div");
+			var result = true;
+			for(var i=0,len=peopleC.length;i<len;i++){
+			   if(peopleC[i].style.visibility=="hidden"){
+			       result = false;
+				   break;
+			   }
+			}
+			if(result){
+			    alert("恭喜完成过河游戏！！！");
+				window.location = window.location;
+			}
+		}
+		
+	
+}
+window.onload = function(){
+    init();
+};
+</script>
+</head>
+
+<body>
+<div id="content">
+    <div id="A">
+        <div id="people" name="people">天使1</div>
+        <div id="people" name="people">天使2</div>
+        <div id="people" name="people">天使3</div>
+        <div id="people" name="people">野人1</div>
+        <div id="people" name="people">野人2</div>
+        <div id="people" name="people">野人3</div>
+      
+      
+    </div>
+    <div id="B">
+        <div id="river">
+            <div id="ship" name="ship"></div>
+            <div id="ship" name="ship"></div>
+        </div>
+        <div id="operator">
+            <div id="btns">
+                <div id="btn">移动</div>
+                <div id="new">重玩</div>
+            </div>
+            <div id="rule">
+            <h1>过河游戏：</h1>
+			<h2>使天使和野人到河对岸。
+			过程中请保持天使数量大于等于野人数量。</h2>
+			
+            </div>
+        </div>
+    </div>
+    <div id="C">
+      <div id="people" name="people">天使1</div>
+      <div id="people" name="people">天使2</div>
+      <div id="people" name="people">天使3</div>
+      <div id="people" name="people">野人1</div>
+      <div id="people" name="people">野人2</div>
+      <div id="people" name="people">野人3</div>
+    </div>
+</div>
+</body>
+</html>

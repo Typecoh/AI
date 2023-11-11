@@ -1,0 +1,16 @@
+import requests  #爬取网页的库
+from bs4 import BeautifulSoup #用于解析网页的库
+import re
+
+headers = {
+    'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36",
+    }  # 构造请求头
+url = 'https://zhidao.baidu.com/question/505351294.html'
+response = requests.request("GET", url, headers=headers) # 获取网页数据
+response.encoding = response.apparent_encoding # 当获取的网页有乱码时加
+
+soup = BeautifulSoup(response.text, 'html.parser')
+
+bf = soup.find('div', class_='rich-content-container rich-text-')
+
+print(bf)

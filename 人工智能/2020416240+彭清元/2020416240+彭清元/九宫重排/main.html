@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>20级计科二班彭彭清元</title>
+    </head>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        #container {
+            width: 1000px;
+            /*height: 600px;*/
+            margin: 20px auto;
+            border: 1px solid red;
+        }
+
+        .state {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        .header {
+            width: 100%;
+        }
+
+        .select {
+            margin-left: 20px;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .DisplayMain {
+            width: 80%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .Table {
+            width: 20%;
+        }
+
+        .footer {
+            padding: 10px;
+            width: 1000px;
+            height: 100px;
+            margin: 20px auto;
+            border: 1px solid red;
+        }
+
+        input {
+            width: 32px;
+            height: 24px;
+            text-align: center;
+        }
+
+    </style>
+    <body>
+
+        <div id="APP">
+            <div id="container">
+                <div>
+                    <h1 style="text-align: center; color: coral">欢迎使用由20级计科2班彭清元设计的搜索可视化展示</h1>
+                </div>
+                <div class="main">
+                    <div class="state">
+                        <div class="left">
+                            <h3>九宫重排的初始状态</h3>
+                            <table border="1" height="50" width="100" cellspacing="0">
+                                <tr>
+                                    <td>
+                                        <input type="text" width="100%" v-model="StartNumber[0]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="StartNumber[1]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="StartNumber[2]">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" width="100%" v-model="StartNumber[3]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="StartNumber[4]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="StartNumber[5]">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" width="100%" v-model="StartNumber[6]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="StartNumber[7]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="StartNumber[8]">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="right">
+                            <h3>九宫重排的结束状态</h3>
+                            <table border="1" height="50" width="100" cellspacing="0">
+                                <tr>
+                                    <td>
+                                        <input type="text" width="100%" v-model="EndNumber[0]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="EndNumber[1]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="EndNumber[2]">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" width="100%" v-model="EndNumber[3]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="EndNumber[4]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="EndNumber[5]">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" width="100%" v-model="EndNumber[6]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="EndNumber[7]">
+                                    </td>
+                                    <td>
+                                        <input type="text" width="100%" v-model="EndNumber[8]">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="display">
+                        <h3 style="text-align: center">以下是具体显示过程</h3>
+                        <div class="header">
+                            <div class="select">
+                                <button class="btn1" @click="btn1">盲目搜索</button>
+                                <button class="btn2" @click="btn2">宽度搜索</button>
+                                <button class="btn3" @click="btn3">A*搜索</button>
+                            </div>
+                        </div>
+                        <div class="DisplayMain">
+                            <div class="Table" v-for="item in TableList">
+                                <h4>{{item.title}} <span v-show="bt3 == true">{{item.depth}},{{item.value}}</span></h4>
+                                <div v-for="(it,index) in item.state">
+                                    <span>{{item.state[index * 3 + 0]}}</span>
+                                    <span>{{item.state[index * 3 + 1]}}</span>
+                                    <span>{{item.state[index * 3 + 2]}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span>性能分析：</span>
+                <div>时间：{{time}}</div>
+                <div>步骤：{{step}}</div>
+                <div>最终结果：{{MSG}}</div>
+            </div>
+        </div>
+
+
+        <script src="../../vue.js"></script>
+        <script src="A.js"></script>
+        <script src="BFS.js"></script>
+        <script src="DFS.js"></script>
+        <script>
+
+            const vm = new Vue({
+                el: "#APP",
+
+                data: {
+                    list: [],
+                    TableList: [],
+                    step: "",
+                    time: '',
+                    StartNumber: [],
+                    EndNumber: [],
+                    IsFind: "",
+                    MSG: "",
+                    bt1:false,
+                    bt2:false,
+                    bt3:false,
+                },
+
+                methods: {
+                    btn3() {
+                        this.bt1 = false
+                        this.bt2 = false
+                        this.bt3 = true
+                        this.list = []
+                        this.list = main(this.StartNumber, this.EndNumber)
+                        // this.list = main(StartNumber,EndNumber)
+                        // console.log(this.list)
+                        // console.log(main([2,8,3,1,6,4,7,0,5],[1,2,3,8,0,4,7,6,5]))
+                        this.time = this.list.time
+                        this.TableList = []
+                        let items = this.list.Path.items
+                        let len = items.length - 1
+                        for (let i = items.length - 2; i >= 0; i--) {
+                            this.TableList.push({
+                                title: "第" + (len - i) + "步",
+                                state: items[i].state,
+                                depth: "h(" + (len - i) + "): " + items[i].depth,
+                                value: "g(" + (len - i) + "): " + items[i].value,
+                            })
+                        }
+
+                        this.time = "时间花费（单位:时间戳）: " + this.time
+                        this.step = "一共花了" + len + "步"
+                        this.IsFind = this.list.IsFind
+                        if (this.IsFind == true) this.MSG = "成功找到结果"
+                        else this.MSG = "未成功找到结果"
+                    },
+                    btn2() {
+                        this.bt1 = false
+                        this.bt2 = true
+                        this.bt3 = false
+                        this.TableList = []
+                        this.list = []
+
+                        let set = []
+
+                        set = main1(this.StartNumber, this.EndNumber)
+                        // set = main1([2, 8, 3, 1, 6, 4, 7, 0, 5], [1, 2, 3, 8, 0, 4, 7, 6, 5])
+
+                        // console.log(set)
+                        set.set.forEach(value => {
+                            this.list.push(value.split(""))
+                        })
+
+                        console.log(this.list)
+
+                        let items = this.list
+                        let len = items.length
+                        for (let i = 0; i < len; i++) {
+                            this.TableList.push({
+                                title: "第" + (i + 1) + "步",
+                                state: items[i],
+                            })
+                        }
+
+                        this.time = "时间花费（单位:时间戳）: " + set.time
+                        this.step = "一共花了" + len + "步"
+
+                        this.IsFind = set.IsFind
+                        if (this.IsFind == true) this.MSG = "成功找到结果"
+                        else this.MSG = "未成功找到结果"
+                    },
+                    btn1() {
+                        this.bt1 = true
+                        this.bt2 = false
+                        this.bt3 = false
+                        this.TableList = []
+                        this.list = []
+
+                        let map = []
+
+                        // set = main1(this.StartNumber, this.EndNumber)
+                        map = main2(this.StartNumber, this.EndNumber)
+                        // map = main2([2, 8, 3, 1, 6, 4, 7, 0, 5], [1, 2, 3, 8, 0, 4, 7, 6, 5])
+
+                        // console.log(map)
+
+                        map.ansString.forEach(value => {
+                            this.list.push(value.split(""))
+                        })
+
+                        console.log(this.list)
+
+                        let items = this.list
+                        let len = items.length
+                        for (let i = 0; i < len; i++) {
+                            this.TableList.push({
+                                title: "第" + (i + 1) + "步",
+                                state: items[i],
+                            })
+                        }
+
+                        this.time = "时间花费（单位:时间戳）: " + map.time
+                        this.step = "一共花了" + len + "步"
+                        this.IsFind = map.IsFind
+                        if (this.IsFind == true) this.MSG = "成功找到结果"
+                        else this.MSG = "未成功找到结果"
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "list": {
+    "name": [],
+    "alias": [],
+    "Types": [],
+    "firm": [],
+    "制作地区": [],
+    "FilmingLocations": [],
+    "firm": [],
+    "Release": [],
+    "Director": [],
+    "screenwriter": [],
+    "producer": [],
+    "Starring": [],
+    "主要奖项": [],
+    "出品时间": []
+  },
+
+  "Types": "抗战 悬疑 励志 偶想 商战 职场 青春 现代 当代 怪异 军旅 反腐 伦理 战争 古装 抗日 谍战 警匪 武侠 农村 喜剧 偶像 言情 家庭 神话 都市 科幻 动作 穿越",
+  "Director": "导演 执导",
+  "Starring": "主演 主要演员 领衔主演 联袂主演",
+  "Release": "上映 播出",
+  "screenwriter": "编剧",
+  "producer": "监制",
+  "firm": "发行公司",
+  "FilmingLocations": "拍摄地点",
+  "name": "名称",
+  "alias": "改编",
+  "reads": "阅读量",
+  "discovers": "讨论量",
+  "Info": "讲述了"
+}

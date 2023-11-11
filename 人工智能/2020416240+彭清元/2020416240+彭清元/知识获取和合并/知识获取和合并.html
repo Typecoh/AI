@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>知识获取和合并</title>
+    </head>
+
+    <style>
+        header {
+            width: 1200px;
+            margin: 10px auto;
+            color: darkorange;
+            text-align: center;
+        }
+
+        .container {
+            width: 1200px;
+            height: 100px;
+            margin: 10px auto;
+            display: flex;
+            flex-direction: row;
+            /*background-color: red;*/
+            justify-content: space-around;
+            /*padding: 10px 10px;*/
+        }
+
+        .left {
+            flex: 5;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .right {
+            flex: 5;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .left div {
+            /*width: 220px;*/
+        }
+
+        .right {
+            flex: 2;
+        }
+
+        .left textarea {
+            width: 200px;
+            height: 250px;
+            outline: none;
+            resize: none
+        }
+
+        .right textarea {
+            width: 200px;
+            height: 500px;
+            outline: none;
+            resize: none
+        }
+
+        button {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <body>
+        <div id="App">
+            <header><h1>欢迎使用由20级计科2班彭清元设计的知识获取和合并的可视化展示</h1></header>
+            <div class="container">
+                <div class="left">
+                    <div>
+                        <button @click="btn1">导入文本1</button>
+                        <div>
+                            <textarea>{{msg1}}</textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <button @click="btn2">导入文本2</button>
+                        <div>
+                            <textarea>{{msg2}}</textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <button @click="btn3">导入文本3</button>
+                        <div>
+                            <textarea>{{msg3}}</textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <button @click="btn4">导入文本4</button>
+                        <div>
+                            <textarea>{{msg4}}</textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <button @click="btn5">文本1信息</button>
+                        <div>
+                            <textarea>{{msg5}}</textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <button @click="btn6">文本2信息</button>
+                        <div>
+                            <textarea>{{msg6}}</textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <button @click="btn7">文本3信息</button>
+                        <div>
+                            <textarea>{{msg7}}</textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <button @click="btn8">文本4信息</button>
+                        <div>
+                            <textarea>{{msg8}}</textarea>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="right">
+                    <div>
+                        <button @click="btn9">合并结果</button>
+                        <div>
+                            <textarea>{{msg9}}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../axios.js"></script>
+        <script src="../vue.js"></script>
+        <script src="知识获取.js"></script>
+        <script src="test.js"></script>
+
+        <script>
+
+            const vm = new Vue({
+                el: "#App",
+                data: {
+                    msg1: "",
+                    msg2: "",
+                    msg3: "",
+                    msg4: "",
+                    msg5: "",
+                    msg6: "",
+                    msg7: "",
+                    msg8: "",
+                    msg9: "",
+                    list: ""
+                },
+                created() {
+                    this.getdata()
+                },
+                methods: {
+                    async getdata() {
+                        this.list = await getData()
+                    },
+                    async btn1() {
+                        this.msg1 = this.list.one.message
+                    },
+                    btn2() {
+                        this.msg2 = this.list.two.message
+                    },
+                    btn3() {
+                        this.msg3 = this.list.three.message
+                    },
+                    btn4() {
+                        this.msg4 = this.list.four.message
+                    },
+                    btn5() {
+                        let string = this.msg1
+                        let message = Process1(string)
+                        this.msg5 = message
+                    },
+                    btn6() {
+                        let string = this.msg2
+                        let message = Process2(string)
+                        this.msg6 = message
+                    },
+                    btn7() {
+                        let string = this.msg3
+                        let message = Process3(string)
+                        this.msg7 = message
+                        console.log(message)
+                    },
+                    btn8() {
+                        let string = this.msg4
+                        let message = Process4(string)
+                        this.msg8 = message
+                    },
+                    btn9() {
+                        this.msg9 = merge(this.msg5, this.msg6, this.msg7, this.msg8)
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
